@@ -1,0 +1,32 @@
+server {
+    #listen 443 ssl;     # SSL用ポート
+    listen 80;
+    server_name site.jp;  # 自分のドメイン名
+
+    #ssl_certificate /etc/ssl/certs/xxxxxxxxxxxxxx.crt;                # SSL証明書をダウンロードしたものを配置
+    #ssl_certificate_key /etc/ssl/private/xxxxxxxxxxxxxxxxxxxxx.key;   # SSL鍵をダウンロードしたものを配置
+
+    #ssl_protocols TLSv1.2 TLSv1.3;  # 使用するTLSバージョン
+    #ssl_ciphers HIGH:!aNULL:!MD5;
+    #ssl_prefer_server_ciphers on;
+
+    location /api/ {
+        proxy_pass http://backend:8085/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html index.htm;
+        try_files $uri $uri/ /index.html;
+    }
+}
+
+server {
+    listen 80;
+    server_name site.jp;  # 自分のドメイン名
+    return 301 https://$host$request_uri;
+}
