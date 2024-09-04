@@ -1,20 +1,17 @@
 services:
   frontend:
-    build:
-      context: ./frontend
+    image: dockerHubUser/app-frontend:latest  #自身の名称に変更
     ports:
       - "80:80"
+      - "443:443"
     depends_on:
       - backend
-    volumes:              # 開発用
-      - ./frontend:/app   # 開発用
-      - /app/node_modules # 開発用
-    stdin_open: true      # 開発用　必要に応じてインタラクティブモードを有効にします
-    tty: true             # 開発用　コンテナが終了しないようにするための設定
+    volumes:
+      - ./SSL/xxxxxxxxxxxx.crt:/etc/ssl/certs/xxxxxxxxxxxx.crt   # SSL証明書をダウンロードしたものを配置
+      - ./SSL/xxxxxxxxxxxx.key:/etc/ssl/private/xxxxxxxxxxxx.key # SSL鍵をダウンロードしたものを配置
 
   backend:
-    build:
-      context: ./backend
+    image: dockerHubUser/app-backend:latest  #自身の名称に変更
     ports:
       - "8085:8085"
     environment:
