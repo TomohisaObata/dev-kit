@@ -3,12 +3,12 @@ server {
     listen 80;
     server_name site.jp;  # 自分のドメイン名
 
-    #ssl_certificate /etc/ssl/certs/xxxxxxxxxxxxxx.crt;                # SSL証明書をダウンロードしたものを配置
-    #ssl_certificate_key /etc/ssl/private/xxxxxxxxxxxxxxxxxxxxx.key;   # SSL鍵をダウンロードしたものを配置
+    ssl_certificate /etc/ssl/certs/xxxxxxxxxxxxxx.crt;                # SSL証明書をダウンロードしたものを配置
+    ssl_certificate_key /etc/ssl/private/xxxxxxxxxxxxxxxxxxxxx.key;   # SSL鍵をダウンロードしたものを配置
 
-    #ssl_protocols TLSv1.2 TLSv1.3;  # 使用するTLSバージョン
-    #ssl_ciphers HIGH:!aNULL:!MD5;
-    #ssl_prefer_server_ciphers on;
+    ssl_protocols TLSv1.2 TLSv1.3;  # 使用するTLSバージョン
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
 
     location /api/ {
         proxy_pass http://backend:8085/;
